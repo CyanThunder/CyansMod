@@ -1,0 +1,16 @@
+[
+{
+  "modid": "cyansmod",
+  "name": "Cyan's Mod",
+  "description": "Cyan's Mod",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "cyanthundermc.weebly.com",
+  "updateUrl": "",
+  "authorList": ["CyanThunderMC"],
+  "credits": "CyanThunderMC",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
