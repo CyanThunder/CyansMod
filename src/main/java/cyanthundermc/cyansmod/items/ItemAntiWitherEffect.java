@@ -3,6 +3,7 @@ package cyanthundermc.cyansmod.items;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cyanthundermc.cyansmod.CyansMod;
 import cyanthundermc.cyansmod.ExtendedPlayer;
+import cyanthundermc.cyansmod.PlayerUtils;
 import cyanthundermc.cyansmod.lib.Constants;
 import cyanthundermc.cyansmod.lib.Reference;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,7 +43,7 @@ public class ItemAntiWitherEffect extends Item {
                 mode = "On";
                 modeColor = EnumChatFormatting.GREEN;
                 if (armorHelm == null || armorChest == null || armorLeggings == null || armorBoots == null || armorHelm.getItem() != ModItems.antiWitherHelm || armorChest.getItem() != ModItems.antiWitherChest || armorLeggings.getItem() != ModItems.antiWitherLeggings || armorBoots.getItem() != ModItems.antiWitherBoots) {
-                    player.addChatMessage(new ChatComponentText(EnumChatFormatting.DARK_AQUA + "[WARNING] REQUIRES FULL SET OF ANTI-WITHER ARMOR!"));
+                    PlayerUtils.sendChat(player, EnumChatFormatting.DARK_AQUA + "[WARNING] REQUIRES FULL SET OF ANTI-WITHER ARMOR!");
                 }
             }
             player.addChatMessage(new ChatComponentText(EnumChatFormatting.BLUE + "Anti-Wither Effect Mode: " + modeColor + mode));

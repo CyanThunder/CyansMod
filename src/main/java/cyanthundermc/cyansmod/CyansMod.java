@@ -34,6 +34,7 @@ public class CyansMod {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        //Constants.debugMode = true;
         System.out.println("[Cyan's Mod] Loading Configurations");
         ConfigurationHandler.init(event.getSuggestedConfigurationFile());
         System.out.println("[Cyan's Mod] Registering Tool/Armor Materials");

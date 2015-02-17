@@ -27,7 +27,7 @@ import org.lwjgl.input.Keyboard;
 import java.util.List;
 import java.util.Random;
 
-public class ItemAntiWitherArmor extends ItemArmor implements ISpecialArmor{
+public class ItemAntiWitherArmor extends ItemArmor implements ISpecialArmor {
 
     public double reductionValue;
 
@@ -62,38 +62,63 @@ public class ItemAntiWitherArmor extends ItemArmor implements ISpecialArmor{
         }
     }
 
-    int tick = 0;
+    //DEBUG:
+    public static int tick = 0;
+
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        tick++;
-        ExtendedPlayer props = (ExtendedPlayer) player.getExtendedProperties(ExtendedPlayer.EXT_PROP_NAME);
-        ItemStack armorHelm = player.getCurrentArmor(3);
-        ItemStack armorChest = player.getCurrentArmor(2);
-        ItemStack armorLeggings = player.getCurrentArmor(1);
-        ItemStack armorBoots = player.getCurrentArmor(0);
-        if (armorHelm != null && armorChest != null && armorLeggings != null && armorBoots != null) {
-            if (armorHelm.getItem() == ModItems.antiWitherHelm && armorChest.getItem() == ModItems.antiWitherChest && armorLeggings.getItem() == ModItems.antiWitherLeggings && armorBoots.getItem() == ModItems.antiWitherBoots) {
-                if (props.getProperty(ExtendedPlayer.PropTypes.AntiWitherEffect)) {
-                    if (player.isPotionActive(Potion.wither) && !player.capabilities.isCreativeMode) {
-                        player.removePotionEffect(Potion.wither.getId());
-                        int armorDmg = (int)Math.round(world.difficultySetting.getDifficultyId() * 8);
-                        armorHelm.setItemDamage(armorHelm.getItemDamage() + armorDmg);
-                        armorChest.setItemDamage(armorChest.getItemDamage() + armorDmg);
-                        armorLeggings.setItemDamage(armorLeggings.getItemDamage() + armorDmg);
-                        armorBoots.setItemDamage(armorBoots.getItemDamage() + armorDmg);
+        if (world.isRemote) {
+            tick += 1;
+            ExtendedPlayer props = (ExtendedPlayer) player.getExtendedProperties(ExtendedPlayer.EXT_PROP_NAME);
+            ItemStack[] wearingArmor = {player.getCurrentArmor(3), player.getCurrentArmor(2), player.getCurrentArmor(1), player.getCurrentArmor(0)};
+            if (wearingArmor[0] != null && wearingArmor[1] != null && wearingArmor[2] != null && wearingArmor[3] != null) {
+                if (wearingArmor[0].getItem() == ModItems.antiWitherHelm && wearingArmor[1].getItem() == ModItems.antiWitherChest && wearingArmor[2].getItem() == ModItems.antiWitherLeggings && wearingArmor[3].getItem() == ModItems.antiWitherBoots) {
+                    if (props.getProperty(ExtendedPlayer.PropTypes.AntiWitherEffect)) {
+                        if (player.isPotionActive(Potion.wither) && !player.capabilities.isCreativeMode) {
+                            player.removePotionEffect(Potion.wither.getId());
+                            int armorDmg = (int) Math.round(world.difficultySetting.getDifficultyId() * 8);
+                            wearingArmor[0].setItemDamage(wearingArmor[0].getItemDamage() + armorDmg);
+                            wearingArmor[1].setItemDamage(wearingArmor[1].getItemDamage() + armorDmg);
+                            wearingArmor[2].setItemDamage(wearingArmor[2].getItemDamage() + armorDmg);
+                            wearingArmor[3].setItemDamage(wearingArmor[3].getItemDamage() + armorDmg);
+                        }
                     }
                 }
             }
-        }
 
-        if (Reference.antiWitherAutoRepair && tick == 100) {
-            Random random = new Random();
-            if (random.nextInt(20) == 0 && itemStack.getItemDamage() <= itemStack.getMaxDamage()) {
-                itemStack.setItemDamage(itemStack.getItemDamage() + 1);
+            if (Reference.antiWitherAutoRepair && tick == 100) {
+                Random random = new Random();
+                if (random.nextInt(10) == 0) {
+                    int r = random.nextInt(4);
+                    if (wearingArmor[r].getItem() instanceof ItemAntiWitherArmor)
+                        wearingArmor[r].setItemDamage(wearingArmor[r].getItemDamage() - 1);
+                    else {
+                        int r2 = random.nextInt(4);
+                        while (r2 != r) {
+                            r2 = random.nextInt(4);
+                        }
+                        if (wearingArmor[r2].getItem() instanceof ItemAntiWitherArmor)
+                            wearingArmor[r2].setItemDamage(wearingArmor[r2].getItemDamage() - 1);
+                        else {
+                            int r3 = random.nextInt(4);
+                            while (r3 != r2 && r3 != r) {
+                                r3 = random.nextInt(4);
+                            }
+                            if (wearingArmor[r3].getItem() instanceof ItemAntiWitherArmor)
+                                wearingArmor[r3].setItemDamage(wearingArmor[r3].getItemDamage() - 1);
+                            else {
+                                int r4 = random.nextInt(4);
+                                while (r4 != r3 && r4 != r2 && r4 != r) {
+                                    r4 = random.nextInt(4);
+                                }
+                                if (wearingArmor[r4].getItem() instanceof ItemAntiWitherArmor)
+                                    wearingArmor[r4].setItemDamage(wearingArmor[r4].getItemDamage() - 1);
+                            }
+                        }
+                    }
+                }
                 tick = 0;
-                System.out.println("[Cyan's Mod] [DEBUG] TRUE");
             }
-            System.out.println("[Cyan's Mod] [DEBUG] FALSE");
         }
     }
 

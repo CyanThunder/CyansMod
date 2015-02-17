@@ -1,5 +1,6 @@
 package cyanthundermc.cyansmod.items;
 
+import cyanthundermc.cyansmod.lib.Constants;
 import cyanthundermc.cyansmod.material.ModArmorMaterial;
 import cyanthundermc.cyansmod.material.ModToolMaterial;
 import net.minecraft.item.Item;
@@ -27,6 +28,8 @@ public final class ModItems {
     public static Item antiWitherEffectToggler;
 
     public static void init() {
+        if (Constants.debugMode)
+            debugInit();
         blueGreenIngotItem = new ItemBlueGreenIngot();
         unpreparedCopyIngot = new ItemUnpreparedCopyIngot();
         preparedCopyIngot = new ItemPreparedCopyIngot();
@@ -46,5 +49,10 @@ public final class ModItems {
         antiWitherLeggings = new ItemAntiWitherArmor(ModArmorMaterial.wither, 2, "AntiWitherLeggings");
         antiWitherBoots = new ItemAntiWitherArmor(ModArmorMaterial.wither, 3, "AntiWitherBoots");
         antiWitherEffectToggler = new ItemAntiWitherEffect();
+    }
+
+    public static Item itemDebugTool;
+    public static void debugInit() {
+        itemDebugTool = new ItemDebugTool();
     }
 }

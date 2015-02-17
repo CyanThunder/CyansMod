@@ -3,6 +3,7 @@ package cyanthundermc.cyansmod.eventhandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cyanthundermc.cyansmod.ExtendedPlayer;
+import cyanthundermc.cyansmod.PlayerUtils;
 import cyanthundermc.cyansmod.items.ModItems;
 import cyanthundermc.cyansmod.proxy.CommonProxy;
 import net.minecraft.entity.Entity;
@@ -123,7 +124,7 @@ public class CyansModEventHandler {
     public void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event)
     {
         EntityPlayer player = (EntityPlayer) event.player;
-        player.addChatMessage(new ChatComponentText(EnumChatFormatting.DARK_GREEN + "[Cyan's Mod] " + randomMsg().replace("%PLAYERNAME%", player.getDisplayName())));
+        PlayerUtils.sendChat(player, EnumChatFormatting.DARK_GREEN + "[Cyan's Mod] " + randomMsg().replace("%PLAYERNAME%", player.getDisplayName()));
     }
     //endregion
 
